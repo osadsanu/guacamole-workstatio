@@ -25,4 +25,14 @@ export DESKTOP_SESSION=xfce
 # Software rendering only: xorgxrdp has no GPU/GLX.
 export LIBGL_ALWAYS_SOFTWARE=1
 
+# Homes created before the image shipped /etc/xdg defaults may still have the
+# compositor on; switch it off once the session bus is up (xfconf needs it).
+if [ ! -e "${HOME}/.config/xfce4/.rdp-tuned" ]; then
+  (
+    sleep 8
+    xfconf-query -c xfwm4 -p /general/use_compositing -n -t bool -s false \
+      && mkdir -p "${HOME}/.config/xfce4" && touch "${HOME}/.config/xfce4/.rdp-tuned"
+  ) &
+fi
+
 exec dbus-launch --exit-with-session startxfce4

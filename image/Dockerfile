@@ -65,11 +65,14 @@ RUN set -eux; \
 
 # --- xrdp / Xorg / sshd configuration ----------------------------------------
 COPY startwm.sh /etc/xrdp/startwm.sh
+COPY xfwm4.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
 RUN chmod 0755 /etc/xrdp/startwm.sh \
     # xrdp-sesman starts Xorg as the logged-in (non-root) user
  && if [ -f /etc/X11/Xwrapper.config ]; then sed -i 's/^allowed_users=.*/allowed_users=anybody/' /etc/X11/Xwrapper.config; fi \
     # keep disconnected desktops alive so a browser reconnect resumes the session
  && sed -i 's/^KillDisconnected=.*/KillDisconnected=false/' /etc/xrdp/sesman.ini \
+    # cap colour depth; the client (guacd) asks for 16 bpp by default
+ && sed -i 's/^max_bpp=.*/max_bpp=24/' /etc/xrdp/xrdp.ini \
     # password login over SSH is what Guacamole uses for the "Terminal" connection
  && sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
  && sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin no/' /etc/ssh/sshd_config \

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  System-wide xfwm4 defaults for the workstation image. Compositing makes
+  xfwm4 repaint whole windows through XRender on every change; over xrdp that
+  turns into full-screen RDP updates and a crawling desktop. Users can still
+  re-enable it in Settings > Window Manager Tweaks > Compositor.
+-->
+<channel name="xfwm4" version="1.0">
+  <property name="general" type="empty">
+    <property name="use_compositing" type="bool" value="false"/>
+    <property name="box_move" type="bool" value="true"/>
+    <property name="box_resize" type="bool" value="true"/>
+    <property name="theme" type="string" value="Default"/>
+  </property>
+</channel>
