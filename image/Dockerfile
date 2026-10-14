@@ -29,9 +29,9 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       ca-certificates curl gnupg sudo locales tzdata procps psmisc \
       iproute2 iputils-ping dnsutils net-tools iptables openssl \
-      openssh-server supervisor dbus-x11 \
+      openssh-server supervisor dbus dbus-x11 \
       xfce4 xfce4-terminal xfce4-screenshooter thunar-archive-plugin \
-      xrdp xorgxrdp x11-xserver-utils xdg-utils \
+      xrdp xorgxrdp x11-xserver-utils x11-utils xdg-utils \
       firefox-esr fonts-dejavu fonts-liberation \
       git vim nano less jq unzip zip bash-completion htop tmux \
  && sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \

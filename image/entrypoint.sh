@@ -110,10 +110,15 @@ fi
   echo "export MINIKUBE_IN_STYLE=false"
 } > /etc/profile.d/workstation-env.sh
 
-# --- sshd / xrdp housekeeping -------------------------------------------------
-mkdir -p /run/sshd /var/run/xrdp
+# --- sshd / xrdp / dbus housekeeping -----------------------------------------
+mkdir -p /run/sshd /var/run/xrdp /run/dbus
 ssh-keygen -A >/dev/null
-rm -f /var/run/xrdp/*.pid /var/run/xrdp/sockdir/* 2>/dev/null || true
+rm -f /var/run/xrdp/*.pid /var/run/xrdp/sockdir/* /run/dbus/pid 2>/dev/null || true
+# D-Bus (and therefore xfce4-session) refuses to start without a machine id.
+dbus-uuidgen --ensure
+if [ ! -s /etc/machine-id ]; then
+  cp /var/lib/dbus/machine-id /etc/machine-id
+fi
 
 # --- 4. Docker-in-Docker ------------------------------------------------------
 rm -f /etc/supervisor/conf.d/dockerd.conf
